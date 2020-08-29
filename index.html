@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ToDo-List</title>
+    <link rel="stylesheet" href="./css/resetstyle.css">
+    <link rel="stylesheet" href="./css/style.css">
+</head>
+
+<body>
+
+    <div class="wrapper">
+        <div class="todo">
+            <div class="todo__add">
+                <input class="todo__input" id="todo__input" type="text" placeholder="Add new task">
+                <button class="button-add" id="button-add" type="button">Add</button>
+            </div>
+
+            <ul class="todo__list" id="todo__list">
+            </ul>
+
+            <ul class="todo__sections">
+                <li>
+                    <span class="todo__sections-link todo__sections-link_active" id="todo__sections-current"
+                        href="">Current</span>
+                </li>
+                <li>
+                    <span class="todo__sections-link" id="todo__sections-done" href="">Done</span>
+                </li>
+                <li>
+                    <span class="todo__sections-link" id="todo__sections-trash" href="">Trash</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <script src="./js/script.js"></script>
+</body>
+
+</html>

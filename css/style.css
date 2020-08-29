@@ -1,0 +1,209 @@
+/* === base === */
+body {
+    font-size: 17px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.wrapper {
+    padding: 100px;
+}
+
+.todo {
+    position: relative;
+
+    width: 600px;
+    min-height: 700px;
+    background-color: rgb(148, 162, 177);
+    border: 7px solid black;
+    border-radius: 50px;
+    margin: 0 auto;
+
+    padding: 50px;
+    padding-bottom: 117px;
+    box-shadow: 7px 7px 7px 0px rgba(0, 0, 0, 0.75);
+}
+
+/* === / base === */
+
+/* === add === */
+.todo__add {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 50px;
+}
+
+.todo__input {
+    flex-grow: 1;
+    height: 40px;
+    font-size: 17px;
+    padding: 0 10px;
+    margin-right: 10px;
+    background-color: transparent;
+    border-bottom: 2px solid black;
+    color: #fff;
+}
+
+.todo__input::placeholder {
+    color: #fff;
+    opacity: 0.5;
+}
+
+.button-add {
+    height: 37px;
+    padding: 0 30px;
+    border: none;
+    font-size: 17px;
+    font-weight: bold;
+    text-transform: uppercase;
+    background-color: #4CAF50;
+    color: #fff;
+    box-shadow: 0 3px #666;
+
+    border-radius: 2px;
+    transform: translateY(-3px);
+}
+
+.button-add:hover {
+    background-color: #3e8e41
+}
+
+.button-add:active {
+    background-color: #3e8e41;
+    box-shadow: 0 2px black;
+    transform: translateY(0);
+}
+
+/* === / add === */
+
+/* === list */
+.todo__item {
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.todo__item-text {
+    font-weight: 600;
+    flex-grow: 1;
+    margin-right: 10px;
+
+    border-bottom: 1px solid black;
+}
+
+.todo__item:last-child {
+    margin-bottom: 0;
+}
+
+.todo__buttons {
+    display: flex;
+    width: 60px;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.button-remove {
+    position: relative;
+    width: 20px;
+    height: 20px;
+    opacity: 0.3;
+    transition: .2s;
+}
+
+.button-remove:hover {
+    opacity: 1;
+    transition: .2s;
+}
+
+.button-remove:active {
+    background-color: rgb(248, 80, 80);
+}
+
+.button-remove:before,
+.button-remove:after {
+    content: ' ';
+
+    position: absolute;
+    top: 0;
+    left: 50%;
+
+    height: 20px;
+    width: 4px;
+    background-color: #333;
+}
+
+
+.button-remove:before {
+    transform: translateX(-50%) rotate(45deg);
+}
+
+.button-remove:after {
+    transform: translateX(-50%) rotate(-45deg);
+}
+
+.button-done {
+    position: relative;
+    width: 20px;
+    height: 20px;
+    opacity: 0.3;
+    transition: .2s;
+}
+
+.button-done:hover {
+    opacity: 1;
+    transition: .2s;
+}
+
+.button-done:active {
+    background-color: #4CAF50;
+}
+
+.button-done::after {
+    content: '';
+
+    position: absolute;
+    left: 50%;
+    top: 0;
+    width: 9px;
+    height: 18px;
+    border: solid #333;
+    border-width: 0 4px 4px 0;
+    transform: translateX(-50%) rotate(40deg);
+}
+
+/* === / list */
+
+/* === sections === */
+.todo__sections {
+    position: absolute;
+    bottom: 50px;
+    left: 50%;
+    transform: translateX(-50%);
+
+    display: flex;
+    width: 100%;
+    justify-content: space-around;
+    padding-left: 50px;
+    padding-right: 50px;
+}
+
+.todo__sections li:last-child {
+    margin-right: 0;
+}
+
+.todo__sections-link {
+    color: #333;
+    text-transform: uppercase;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.todo__sections-link:hover {
+    text-decoration: underline;
+}
+
+.todo__sections-link_active {
+    color: #fff;
+}
+
+/* === / sections === */
