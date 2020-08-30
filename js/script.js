@@ -34,6 +34,7 @@
     const buttonAdd = document.getElementById('button-add');
     const todoInput = document.getElementById('todo__input');
     const todoAdd = document.getElementById('todo__add');
+    const todoTitle = document.getElementById('todo__title');
     const todoList = document.getElementById('todo__list');
     const sectionCurrent = document.getElementById('todo__sections-current');
     const sectionDone = document.getElementById('todo__sections-done');
@@ -196,16 +197,19 @@
     sectionCurrent.addEventListener('click', (e) => {
         changeSections(e.target);
         showInput();
+        todoTitle.innerHTML = 'current';
     });
 
     sectionDone.addEventListener('click', (e) => {
         changeSections(e.target);
         hideInput();
+        todoTitle.innerHTML = 'done';
     });
 
     sectionTrash.addEventListener('click', (e) => {
         changeSections(e.target);
         hideInput();
+        todoTitle.innerHTML = 'trash';
     });
 
     INIT();

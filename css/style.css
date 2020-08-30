@@ -48,7 +48,7 @@ body {
     margin-right: 10px;
     background-color: transparent;
     border-bottom: 2px solid black;
-    color: #fff;
+    color: #333;
 }
 
 .todo__input::placeholder {
@@ -82,6 +82,18 @@ body {
 }
 
 /* === / add === */
+
+/* === title === */
+.todo__title {
+    text-align: center;
+    margin-bottom: 50px;
+    font-size: 30px;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+/* === / title === */
+
 
 /* === list */
 .todo__list {
