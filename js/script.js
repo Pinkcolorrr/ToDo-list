@@ -11,7 +11,21 @@
                 taskState: "current"
             }
         ],
-        done: [],
+        done: [{
+            taskId: doId(),
+            taskContent: "Таsk 3",
+            taskState: "done"
+        }, {
+            taskId: doId(),
+            taskContent: "Таsk 4",
+            taskState: "done"
+        }],
+
+        trash: [{
+            taskId: doId(),
+            taskContent: "Таsk 5",
+            taskState: "trash"
+        }],
         get allTask() {
             return this.current.length + this.done.length;
         },
@@ -72,6 +86,32 @@
         removeElem.remove();
     }
 
+    function changeSections(section) {
+        let currentSection = (section === sectionCurrent) ? "current" : (section === sectionDone) ? "done" : "trash";
+        let sections = section.parentNode.parentNode;
+        let childrenArr = sections.children;
+
+        for (let item of childrenArr) {
+            if (item.firstElementChild.classList.contains('todo__sections-link_active')) {
+                item.firstElementChild.classList.remove('todo__sections-link_active');
+            };
+        }
+
+        section.classList.add('todo__sections-link_active');
+
+        clearHtml();
+
+        tasks[currentSection].forEach((item, index) => {
+            createItem(item);
+        });
+    }
+
+    function clearHtml() {
+        while (todoList.firstChild) {
+            todoList.removeChild(todoList.firstChild);
+        }
+    }
+
     function addTask(str) {
         let elem = {
             taskId: doId(),
@@ -93,8 +133,16 @@
         }
     });
 
-    sectionCurrent.addEventListener('click', () => {
-        console.log('hi');
+    sectionCurrent.addEventListener('click', (e) => {
+        changeSections(e.target);
+    });
+
+    sectionDone.addEventListener('click', (e) => {
+        changeSections(e.target);
+    });
+
+    sectionTrash.addEventListener('click', (e) => {
+        changeSections(e.target);
     });
 
     INIT();
