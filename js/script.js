@@ -33,6 +33,7 @@
 
     const buttonAdd = document.getElementById('button-add');
     const todoInput = document.getElementById('todo__input');
+    const todoAdd = document.getElementById('todo__add');
     const todoList = document.getElementById('todo__list');
     const sectionCurrent = document.getElementById('todo__sections-current');
     const sectionDone = document.getElementById('todo__sections-done');
@@ -50,12 +51,16 @@
         let itemButtons = document.createElement('span');
         let buttonRemove = document.createElement('button');
         let buttonDone = document.createElement('button');
+        let buttonReturn = document.createElement('button');
+
+        let typeButton = (el.taskState === "current") ? buttonDone : buttonReturn;
 
         item.classList.add("todo__item");
         text.classList.add("todo__item-text");
         itemButtons.classList.add("todo__buttons");
         buttonRemove.classList.add("button-remove");
         buttonDone.classList.add("button-done");
+        buttonReturn.classList.add("button-return");
 
         text.innerHTML = el.taskContent;
 
@@ -63,12 +68,19 @@
             removeTask(e.target);
         });
 
-        buttonDone.addEventListener('click', () => {});
+        buttonDone.addEventListener('click', (e) => {
+            doneTask(e.target);
+        });
+
+        buttonReturn.addEventListener('click', (e) => {
+            returnTask(e.target);
+        });
 
         item.id = el.taskId;
         item.appendChild(text);
         item.appendChild(itemButtons);
-        itemButtons.appendChild(buttonDone);
+        if (el.taskState != "trash")
+            itemButtons.appendChild(typeButton);
         itemButtons.appendChild(buttonRemove);
         todoList.appendChild(item);
     }
@@ -76,14 +88,52 @@
     function removeTask(elem) {
         let removeElem = elem.parentNode.parentNode;
         let removeId = removeElem.id;
+        let removeObj;
+
+        for (let key in tasks) {
+            if (Array.isArray(tasks[key])) {
+                for (let i = 0; i < tasks[key].length; i++) {
+                    if (tasks[key][i].taskId === removeId) {
+                        removeObj = tasks[key][i];
+
+                        tasks[removeObj.taskState].splice(i, 1);
+                        removeObj.taskState = "trash";
+                        tasks.trash.push(removeObj);
+                    }
+                };
+            }
+        }
+        removeElem.remove();
+    }
+
+    function doneTask(elem) {
+        let doneElem = elem.parentNode.parentNode;
+        let doneId = doneElem.id;
 
         for (let i = 0; i < tasks.current.length; i++) {
-            if (tasks.current[i].taskId === removeId) {
-                tasks.current.splice(i, 1)
+            if (tasks.current[i].taskId === doneId) {
+                tasks.current[i].taskState = "done";
+                tasks.done.push(tasks.current[i]);
+                tasks.current.splice(i, 1);
             }
         };
 
-        removeElem.remove();
+        doneElem.remove();
+    }
+
+    function returnTask(elem) {
+        let returnElem = elem.parentNode.parentNode;
+        let returnId = returnElem.id;
+
+        for (let i = 0; i < tasks.done.length; i++) {
+            if (tasks.done[i].taskId === returnId) {
+                tasks.done[i].taskState = "current";
+                tasks.current.push(tasks.done[i]);
+                tasks.done.splice(i, 1);
+            }
+        };
+
+        returnElem.remove();
     }
 
     function changeSections(section) {
@@ -101,7 +151,7 @@
 
         clearHtml();
 
-        tasks[currentSection].forEach((item, index) => {
+        tasks[currentSection].forEach((item) => {
             createItem(item);
         });
     }
@@ -110,6 +160,16 @@
         while (todoList.firstChild) {
             todoList.removeChild(todoList.firstChild);
         }
+    }
+
+    function showInput() {
+        todoAdd.classList.remove("gide");
+        todoAdd.classList.add("flex");
+    }
+
+    function hideInput() {
+        todoAdd.classList.remove("flex");
+        todoAdd.classList.add("hide");
     }
 
     function addTask(str) {
@@ -135,14 +195,17 @@
 
     sectionCurrent.addEventListener('click', (e) => {
         changeSections(e.target);
+        showInput();
     });
 
     sectionDone.addEventListener('click', (e) => {
         changeSections(e.target);
+        hideInput();
     });
 
     sectionTrash.addEventListener('click', (e) => {
         changeSections(e.target);
+        hideInput();
     });
 
     INIT();

@@ -23,11 +23,18 @@ body {
     box-shadow: 7px 7px 7px 0px rgba(0, 0, 0, 0.75);
 }
 
+.hide {
+    display: none;
+}
+
+.flex {
+    display: flex;
+}
+
 /* === / base === */
 
 /* === add === */
 .todo__add {
-    display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 50px;
@@ -86,7 +93,6 @@ body {
 .todo__item-text {
     font-weight: 600;
     flex-grow: 1;
-    margin-right: 10px;
 
     border-bottom: 1px solid black;
 }
@@ -97,7 +103,6 @@ body {
 
 .todo__buttons {
     display: flex;
-    width: 60px;
     justify-content: space-between;
     align-items: center;
 }
@@ -108,6 +113,7 @@ body {
     height: 20px;
     opacity: 0.3;
     transition: .2s;
+    margin-left: 10px;
 }
 
 .button-remove:hover {
@@ -147,6 +153,7 @@ body {
     height: 20px;
     opacity: 0.3;
     transition: .2s;
+    margin-left: 10px;
 }
 
 .button-done:hover {
@@ -169,6 +176,24 @@ body {
     border: solid #333;
     border-width: 0 4px 4px 0;
     transform: translateX(-50%) rotate(40deg);
+}
+
+.button-return {
+    position: relative;
+    width: 20px;
+    height: 20px;
+    opacity: 0.3;
+    transition: .2s;
+    margin-left: 10px;
+}
+
+.button-return:hover {
+    opacity: 1;
+    transition: .2s;
+}
+
+.button-return:active {
+    background-color: rgb(80, 173, 248);
 }
 
 /* === / list */
@@ -196,6 +221,8 @@ body {
     text-transform: uppercase;
     font-weight: 700;
     cursor: pointer;
+
+    transition: .2s;
 }
 
 .todo__sections-link:hover {
