@@ -89,21 +89,24 @@
     function removeTask(elem) {
         let removeElem = elem.parentNode.parentNode;
         let removeId = removeElem.id;
-        let removeObj;
+        let removeObj = getTaskById(removeId);
 
-        for (let key in tasks) {
-            if (Array.isArray(tasks[key])) {
-                for (let i = 0; i < tasks[key].length; i++) {
-                    if (tasks[key][i].taskId === removeId) {
-                        removeObj = tasks[key][i];
-
-                        tasks[removeObj.taskState].splice(i, 1);
-                        removeObj.taskState = "trash";
-                        tasks.trash.push(removeObj);
-                    }
-                };
+        if (removeObj.taskState !== "trash") {
+            for (let i = 0; i < tasks[removeObj.taskState].length; i++) {
+                if (tasks[removeObj.taskState][i].taskId === removeId) {
+                    tasks[removeObj.taskState].splice(i, 1);
+                    removeObj.taskState = "trash";
+                    tasks.trash.push(removeObj);
+                }
+            }
+        } else {
+            for (let i = 0; i < tasks[removeObj.taskState].length; i++) {
+                if (tasks[removeObj.taskState][i].taskId === removeId) {
+                    tasks[removeObj.taskState].splice(i, 1);
+                }
             }
         }
+
         removeElem.remove();
     }
 
@@ -155,6 +158,18 @@
         tasks[currentSection].forEach((item) => {
             createItem(item);
         });
+    }
+
+    function getTaskById(id) {
+        for (let key in tasks) {
+            if (Array.isArray(tasks[key])) {
+                for (let i = 0; i < tasks[key].length; i++) {
+                    if (tasks[key][i].taskId === id) {
+                        return tasks[key][i];
+                    }
+                }
+            }
+        }
     }
 
     function clearHtml() {
