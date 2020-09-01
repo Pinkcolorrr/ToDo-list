@@ -144,6 +144,7 @@ body {
     opacity: 0.3;
     transition: .2s;
     margin-left: 10px;
+    padding: 1px;
 }
 
 .button-remove:hover {
@@ -184,6 +185,7 @@ body {
     opacity: 0.3;
     transition: .2s;
     margin-left: 10px;
+    padding: 1px;
 }
 
 .button-done:hover {
@@ -215,6 +217,7 @@ body {
     opacity: 0.3;
     transition: .2s;
     margin-left: 10px;
+    padding: 1px;
 }
 
 .button-return:hover {

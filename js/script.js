@@ -2,28 +2,28 @@
     let tasks = {
         current: [{
                 taskId: doId(),
-                taskContent: "Таsk 1",
+                taskContent: "Купить хлеба",
                 taskState: "current"
             },
             {
                 taskId: doId(),
-                taskContent: "Таsk 2",
+                taskContent: "Приготовить обед",
+                taskState: "current"
+            }, {
+                taskId: doId(),
+                taskContent: "Покормить кота",
                 taskState: "current"
             }
         ],
         done: [{
             taskId: doId(),
-            taskContent: "Таsk 3",
+            taskContent: "Сделать уборку",
             taskState: "done"
-        }, {
-            taskId: doId(),
-            taskContent: "Таsk 4",
-            taskState: "done"
-        }],
+        }, ],
 
         trash: [{
             taskId: doId(),
-            taskContent: "Таsk 5",
+            taskContent: "Забрать посылку",
             taskState: "trash"
         }],
         get allTask() {
@@ -54,6 +54,8 @@
         let buttonDone = document.createElement('button');
         let buttonReturn = document.createElement('button');
 
+        let returnIcon = document.createElement('img');
+
         let typeButton = (el.taskState === "current") ? buttonDone : buttonReturn;
 
         item.classList.add("todo__item");
@@ -65,23 +67,27 @@
 
         text.innerHTML = el.taskContent;
 
+        returnIcon.src = "./img/update-arrow.svg";
+
         buttonRemove.addEventListener('click', (e) => {
-            removeTask(e.target);
+            removeTask(e.currentTarget);
         });
 
         buttonDone.addEventListener('click', (e) => {
-            doneTask(e.target);
+            doneTask(e.currentTarget);
         });
 
         buttonReturn.addEventListener('click', (e) => {
-            returnTask(e.target);
+            returnTask(e.currentTarget);
         });
 
         item.id = el.taskId;
         item.appendChild(text);
         item.appendChild(itemButtons);
-        if (el.taskState != "trash")
-            itemButtons.appendChild(typeButton);
+        itemButtons.appendChild(typeButton);
+        if (typeButton === buttonReturn) {
+            typeButton.appendChild(returnIcon);
+        };
         itemButtons.appendChild(buttonRemove);
         todoList.appendChild(item);
     }
@@ -91,7 +97,7 @@
         let removeId = removeElem.id;
         let removeObj = getTaskById(removeId);
 
-        if (removeObj.taskState !== "trash") {
+        if (removeObj.taskState != "trash") {
             for (let i = 0; i < tasks[removeObj.taskState].length; i++) {
                 if (tasks[removeObj.taskState][i].taskId === removeId) {
                     tasks[removeObj.taskState].splice(i, 1);
@@ -99,15 +105,17 @@
                     tasks.trash.push(removeObj);
                 }
             }
+            removeElem.remove();
         } else {
-            for (let i = 0; i < tasks[removeObj.taskState].length; i++) {
-                if (tasks[removeObj.taskState][i].taskId === removeId) {
-                    tasks[removeObj.taskState].splice(i, 1);
+            if (confirm("Are you sure you want to delete this task?")) {
+                for (let i = 0; i < tasks[removeObj.taskState].length; i++) {
+                    if (tasks[removeObj.taskState][i].taskId === removeId) {
+                        tasks[removeObj.taskState].splice(i, 1);
+                    }
                 }
+                removeElem.remove();
             }
         }
-
-        removeElem.remove();
     }
 
     function doneTask(elem) {
@@ -128,14 +136,15 @@
     function returnTask(elem) {
         let returnElem = elem.parentNode.parentNode;
         let returnId = returnElem.id;
+        let returnObj = getTaskById(returnId);
 
-        for (let i = 0; i < tasks.done.length; i++) {
-            if (tasks.done[i].taskId === returnId) {
-                tasks.done[i].taskState = "current";
-                tasks.current.push(tasks.done[i]);
-                tasks.done.splice(i, 1);
+        for (let i = 0; i < tasks[returnObj.taskState].length; i++) {
+            if (tasks[returnObj.taskState][i].taskId === returnId) {
+                tasks[returnObj.taskState].splice(i, 1);
+                returnObj.taskState = "current";
+                tasks.current.push(returnObj);
             }
-        };
+        }
 
         returnElem.remove();
     }
@@ -226,6 +235,7 @@
         hideInput();
         todoTitle.innerHTML = 'trash';
     });
+
 
     INIT();
 })();
