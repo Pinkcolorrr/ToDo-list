@@ -170,12 +170,13 @@
     }
 
     function getTaskById(id) {
+        let obj;
+
         for (let key in tasks) {
             if (Array.isArray(tasks[key])) {
-                for (let i = 0; i < tasks[key].length; i++) {
-                    if (tasks[key][i].taskId === id) {
-                        return tasks[key][i];
-                    }
+                obj = tasks[key].find(item => item.taskId === id);
+                if (obj) {
+                    return obj;
                 }
             }
         }
