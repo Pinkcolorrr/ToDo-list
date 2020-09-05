@@ -1,4 +1,6 @@
 (function () {
+    "use strict";
+
     let tasks = {
         current: [{
                 taskId: doId(),
@@ -87,7 +89,7 @@
         itemButtons.appendChild(typeButton);
         if (typeButton === buttonReturn) {
             typeButton.appendChild(returnIcon);
-        };
+        }
         itemButtons.appendChild(buttonRemove);
         todoList.appendChild(item);
     }
@@ -128,7 +130,7 @@
                 tasks.done.push(tasks.current[i]);
                 tasks.current.splice(i, 1);
             }
-        };
+        }
 
         doneElem.remove();
     }
@@ -157,7 +159,7 @@
         for (let item of childrenArr) {
             if (item.firstElementChild.classList.contains('todo__sections-link_active')) {
                 item.firstElementChild.classList.remove('todo__sections-link_active');
-            };
+            }
         }
 
         section.classList.add('todo__sections-link_active');
@@ -188,14 +190,12 @@
         }
     }
 
-    function showInput() {
-        todoAdd.classList.remove("gide");
-        todoAdd.classList.add("flex");
+    function showElem(Elem) {
+        Elem.style.display = "";
     }
 
-    function hideInput() {
-        todoAdd.classList.remove("flex");
-        todoAdd.classList.add("hide");
+    function hideElem(Elem) {
+        Elem.style.display = "none";
     }
 
     function addTask(str) {
@@ -203,7 +203,7 @@
             taskId: doId(),
             taskContent: str,
             taskState: "current"
-        }
+        };
         tasks.current.push(elem);
         createItem(elem);
     }
@@ -220,23 +220,22 @@
     });
 
     sectionCurrent.addEventListener('click', (e) => {
-        changeSections(e.target);
-        showInput();
+        changeSections(e.currentTarget);
+        showElem(todoAdd);
         todoTitle.innerHTML = 'current';
     });
 
     sectionDone.addEventListener('click', (e) => {
-        changeSections(e.target);
-        hideInput();
+        changeSections(e.currentTarget);
+        hideElem(todoAdd);
         todoTitle.innerHTML = 'done';
     });
 
     sectionTrash.addEventListener('click', (e) => {
-        changeSections(e.target);
-        hideInput();
+        changeSections(e.currentTarget);
+        hideElem(todoAdd);
         todoTitle.innerHTML = 'trash';
     });
-
 
     INIT();
 })();
