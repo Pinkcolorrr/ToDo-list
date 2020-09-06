@@ -28,9 +28,7 @@
             taskContent: "Забрать посылку",
             taskState: "trash"
         }],
-        get allTask() {
-            return this.current.length + this.done.length;
-        },
+        section: "current",
     };
 
     const buttonAdd = document.getElementById('button-add');
@@ -41,6 +39,7 @@
     const sectionCurrent = document.getElementById('todo__sections-current');
     const sectionDone = document.getElementById('todo__sections-done');
     const sectionTrash = document.getElementById('todo__sections-trash');
+    const customConfirm = document.getElementById('custom-confirm');
 
     function INIT() {
         for (const item of tasks.current) {
@@ -72,7 +71,12 @@
         returnIcon.src = "./img/update-arrow.svg";
 
         buttonRemove.addEventListener('click', (e) => {
-            removeTask(e.currentTarget);
+            if (tasks.section === "trash") {
+                removeTask(e.currentTarget);
+
+            } else {
+                sendToTrash(e.currentTarget);
+            }
         });
 
         buttonDone.addEventListener('click', (e) => {
@@ -97,27 +101,30 @@
     function removeTask(elem) {
         let removeElem = elem.parentNode.parentNode;
         let removeId = removeElem.id;
-        let removeObj = getTaskById(removeId);
 
-        if (removeObj.taskState != "trash") {
-            for (let i = 0; i < tasks[removeObj.taskState].length; i++) {
-                if (tasks[removeObj.taskState][i].taskId === removeId) {
-                    tasks[removeObj.taskState].splice(i, 1);
-                    removeObj.taskState = "trash";
-                    tasks.trash.push(removeObj);
+        confirmRemove(() => {
+            for (let i = 0; i < tasks.trash.length; i++) {
+                if (tasks.trash[i].taskId === removeId) {
+                    tasks.trash.splice(i, 1);
                 }
             }
             removeElem.remove();
-        } else {
-            if (confirm("Are you sure you want to delete this task?")) {
-                for (let i = 0; i < tasks[removeObj.taskState].length; i++) {
-                    if (tasks[removeObj.taskState][i].taskId === removeId) {
-                        tasks[removeObj.taskState].splice(i, 1);
-                    }
-                }
-                removeElem.remove();
+        });
+    }
+
+    function sendToTrash(elem) {
+        let removeElem = elem.parentNode.parentNode;
+        let removeId = removeElem.id;
+        let removeObj = getTaskById(removeId);
+
+        for (let i = 0; i < tasks[removeObj.taskState].length; i++) {
+            if (tasks[removeObj.taskState][i].taskId === removeId) {
+                tasks[removeObj.taskState].splice(i, 1);
+                removeObj.taskState = "trash";
+                tasks.trash.push(removeObj);
             }
         }
+        removeElem.remove();
     }
 
     function doneTask(elem) {
@@ -151,6 +158,32 @@
         returnElem.remove();
     }
 
+    function confirmRemove(yesCallback) {
+        customConfirm.style.display = "flex";
+
+        const confirmOk = document.getElementById('confirm-ok');
+        const confirmCancel = document.getElementById('confirm-cancel');
+
+        confirmOk.addEventListener('click', function () {
+            yesCallback();
+            customConfirm.style.display = "none";
+        });
+
+        document.addEventListener('keydown', (event) => {
+            if (event.code === "Enter") {
+                yesCallback();
+                customConfirm.style.display = "none";
+            }
+            if (event.code === "Escape") {
+                customConfirm.style.display = "none";
+            }
+        });
+
+        confirmCancel.addEventListener('click', function () {
+            customConfirm.style.display = "none";
+        });
+    }
+
     function changeSections(section) {
         let currentSection = (section === sectionCurrent) ? "current" : (section === sectionDone) ? "done" : "trash";
         let sections = section.parentNode.parentNode;
@@ -169,6 +202,8 @@
         tasks[currentSection].forEach((item) => {
             createItem(item);
         });
+
+        tasks.section = currentSection;
     }
 
     function getTaskById(id) {
@@ -188,14 +223,6 @@
         while (todoList.firstChild) {
             todoList.removeChild(todoList.firstChild);
         }
-    }
-
-    function showElem(Elem) {
-        Elem.style.display = "";
-    }
-
-    function hideElem(Elem) {
-        Elem.style.display = "none";
     }
 
     function addTask(str) {
@@ -221,19 +248,19 @@
 
     sectionCurrent.addEventListener('click', (e) => {
         changeSections(e.currentTarget);
-        showElem(todoAdd);
+        todoAdd.style.display = "";
         todoTitle.innerHTML = 'current';
     });
 
     sectionDone.addEventListener('click', (e) => {
         changeSections(e.currentTarget);
-        hideElem(todoAdd);
+        todoAdd.style.display = "none";
         todoTitle.innerHTML = 'done';
     });
 
     sectionTrash.addEventListener('click', (e) => {
         changeSections(e.currentTarget);
-        hideElem(todoAdd);
+        todoAdd.style.display = "none";
         todoTitle.innerHTML = 'trash';
     });
 
