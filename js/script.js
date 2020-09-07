@@ -1,7 +1,7 @@
 (function () {
     "use strict";
 
-    let tasks = {
+    const tasks = {
         current: [{
                 taskId: doId(),
                 taskContent: "Купить хлеба",
@@ -31,6 +31,72 @@
         section: "current",
     };
 
+    const costomConfirm = {
+        open(options) {
+            options = Object.assign({}, {
+                title: '',
+                message: '',
+                okText: 'OK',
+                cancelText: 'Cancel',
+                onok: function () {},
+                oncancel: function () {}
+            }, options);
+
+            const html =
+                `<div class="custom-confirm" id="custom-confirm">
+                <div class="custom-confirm__body">
+                    <div class="custom-confirm__title">
+                        <div class="custom-confirm__title-text">${options.title}</div>
+                        <button class="custom-confirm__cross-button" id="confirm-cross"></button>
+                    </div>
+                    <div class="custom-confirm__content">
+                        <div class="custom-confirm__text">${options.message}</div>
+                        <div class="custom-confirm__buttons">
+                            <button class="custom-confirm__buttons-ok" id="confirm-ok" type="button">${options.okText}</button>
+                            <button class="custom-confirm__buttons-cancel" id="confirm-cancel" type="button">${options.cancelText}</button>
+                        </div>
+                    </div>
+                </div>
+            </div>`;
+
+            const template = document.createElement('template');
+            template.innerHTML = html;
+
+            const confirmEl = template.content.querySelector('#custom-confirm');
+            const buttonCross = template.content.querySelector('#confirm-cross');
+            const buttonOk = template.content.querySelector('#confirm-ok');
+            const buttonCancel = template.content.querySelector('#confirm-cancel');
+
+            confirmEl.addEventListener('click', () => {
+                buttonOk.focus();
+            });
+
+            buttonOk.addEventListener('click', () => {
+                options.onok();
+                this.close(confirmEl);
+            });
+
+            [buttonCross, buttonCancel].forEach((item) => {
+                item.addEventListener('click', () => {
+                    this.close(confirmEl);
+                });
+            });
+
+            document.addEventListener('keyup', (e) => {
+                if (e.keyCode === 27) {
+                    this.close(confirmEl);
+                }
+            });
+
+            document.body.appendChild(template.content);
+            buttonOk.focus();
+        },
+
+        close(confirmEl) {
+            confirmEl.style.display = "none";
+        }
+    };
+
     const buttonAdd = document.getElementById('button-add');
     const todoInput = document.getElementById('todo__input');
     const todoAdd = document.getElementById('todo__add');
@@ -39,7 +105,6 @@
     const sectionCurrent = document.getElementById('todo__sections-current');
     const sectionDone = document.getElementById('todo__sections-done');
     const sectionTrash = document.getElementById('todo__sections-trash');
-    const customConfirm = document.getElementById('custom-confirm');
 
     function INIT() {
         for (const item of tasks.current) {
@@ -102,13 +167,17 @@
         let removeElem = elem.parentNode.parentNode;
         let removeId = removeElem.id;
 
-        confirmRemove(() => {
-            for (let i = 0; i < tasks.trash.length; i++) {
-                if (tasks.trash[i].taskId === removeId) {
-                    tasks.trash.splice(i, 1);
+        costomConfirm.open({
+            title: 'Remove task',
+            message: 'Are you sure you wish to remove task?',
+            onok: () => {
+                for (let i = 0; i < tasks.trash.length; i++) {
+                    if (tasks.trash[i].taskId === removeId) {
+                        tasks.trash.splice(i, 1);
+                    }
                 }
+                removeElem.remove();
             }
-            removeElem.remove();
         });
     }
 
@@ -156,32 +225,6 @@
         }
 
         returnElem.remove();
-    }
-
-    function confirmRemove(yesCallback) {
-        customConfirm.style.display = "flex";
-
-        const confirmOk = document.getElementById('confirm-ok');
-        const confirmCancel = document.getElementById('confirm-cancel');
-
-        confirmOk.addEventListener('click', function () {
-            yesCallback();
-            customConfirm.style.display = "none";
-        });
-
-        document.addEventListener('keydown', (event) => {
-            if (event.code === "Enter") {
-                yesCallback();
-                customConfirm.style.display = "none";
-            }
-            if (event.code === "Escape") {
-                customConfirm.style.display = "none";
-            }
-        });
-
-        confirmCancel.addEventListener('click', function () {
-            customConfirm.style.display = "none";
-        });
     }
 
     function changeSections(section) {

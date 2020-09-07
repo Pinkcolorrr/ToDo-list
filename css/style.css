@@ -282,42 +282,112 @@ body {
     height: 100%;
     background: rgba(0, 0, 0, 0.5);
 
-    display: none;
+    display: flex;
     justify-content: center;
     align-items: center;
 }
 
 .custom-confirm__body {
-    width: 350px;
-    height: 150px;
+    width: 480px;
+    height: 180px;
     background: #fff;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    justify-content: space-between;
     align-items: center;
-    padding: 20px;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.custom-confirm__title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    background: #333;
+    padding: 15px 20px;
+    align-self: flex-start;
+}
+
+.custom-confirm__title-text {
+    color: #fff;
+    font-weight: 700;
+}
+
+.custom-confirm__cross-button {
+    position: relative;
+    width: 20px;
+    height: 20px;
+    background: transparent;
+}
+
+.custom-confirm__cross-button:hover:before,
+.custom-confirm__cross-button:hover::after {
+    background-color: rgb(248, 80, 80);
+    transition: .2s;
+}
+
+.custom-confirm__cross-button::before,
+.custom-confirm__cross-button::after {
+    content: ' ';
+
+    position: absolute;
+    top: 0;
+    left: 50%;
+
+    height: 20px;
+    width: 3px;
+    background-color: #fff;
+    transition: .2s;
+}
+
+.custom-confirm__cross-button::before {
+    transform: translateX(-50%) rotate(45deg);
+}
+
+.custom-confirm__cross-button::after {
+    transform: translateX(-50%) rotate(-45deg);
 }
 
 .custom-confirm__text {
     margin-bottom: 30px;
+    font-size: 20px;
 }
 
 .custom-confirm__content {
-    text-align: center;
+    flex-grow: 1;
+    width: 100%;
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
 }
 
-.custom-confirm__buttons-item {
+.custom-confirm__buttons {
+    align-self: flex-end;
+}
+
+.custom-confirm__buttons-ok {
     font-size: 17px;
     text-transform: uppercase;
     font-weight: bold;
-    border: 1px solid #333;
-    background: rgb(99, 226, 220);
+    background: #333;
     text-align: center;
-    padding: 5px 0;
-    width: 100px;
+    padding: 9px 15px;
+    border-radius: 5px;
+    color: #fff;
+    margin-right: 10px;
 }
 
-.custom-confirm__buttons-item:first-child {
-    margin-right: 40px;
+.custom-confirm__buttons-cancel {
+    font-size: 17px;
+    font-weight: bold;
+    border: 2px solid #333;
+    background: #fff;
+    text-align: center;
+    padding: 7px 15px;
+    border-radius: 5px;
+    color: #333;
 }
 
 /* === / custom-confirm === */
