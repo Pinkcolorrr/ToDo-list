@@ -14,9 +14,9 @@ body {
     position: relative;
 
     width: 600px;
-    min-height: 700px;
+    height: 700px;
     background-color: rgb(148, 162, 177);
-    border: 7px solid black;
+    border: 7px solid #333;
     border-radius: 50px;
     margin: 0 auto;
 
@@ -52,6 +52,7 @@ body {
     background-color: transparent;
     border-bottom: 2px solid black;
     color: #333;
+    font-weight: 600;
 }
 
 .todo__input::placeholder {
@@ -101,6 +102,7 @@ body {
 /* === list */
 .todo__list {
     counter-reset: item;
+    max-height: 350px;
 }
 
 .todo__item {
@@ -108,7 +110,8 @@ body {
     margin-bottom: 20px;
     display: flex;
     justify-content: space-between;
-    padding-left: 25px;
+    padding-left: 35px;
+
 }
 
 .todo__item::before {
@@ -144,7 +147,7 @@ body {
     position: relative;
     width: 20px;
     height: 20px;
-    opacity: 0.3;
+    opacity: 0.5;
     transition: .2s;
     margin-left: 10px;
     padding: 1px;
@@ -185,7 +188,7 @@ body {
     position: relative;
     width: 20px;
     height: 20px;
-    opacity: 0.3;
+    opacity: 0.5;
     transition: .2s;
     margin-left: 10px;
     padding: 1px;
@@ -217,7 +220,7 @@ body {
     position: relative;
     width: 20px;
     height: 20px;
-    opacity: 0.3;
+    opacity: 0.5;
     transition: .2s;
     margin-left: 10px;
     padding: 1px;

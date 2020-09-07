@@ -110,6 +110,8 @@
         for (const item of tasks.current) {
             createItem(item);
         }
+
+        todoInput.focus();
     }
 
     function createItem(el) {
@@ -169,7 +171,7 @@
 
         costomConfirm.open({
             title: 'Remove task',
-            message: 'Are you sure you wish to remove task?',
+            message: 'Are you sure you wish to remove this task?',
             onok: () => {
                 for (let i = 0; i < tasks.trash.length; i++) {
                     if (tasks.trash[i].taskId === removeId) {
@@ -305,6 +307,18 @@
         changeSections(e.currentTarget);
         todoAdd.style.display = "none";
         todoTitle.innerHTML = 'trash';
+    });
+
+    document.addEventListener('keydown', (e) => {
+        if (e.keyCode === 13 && tasks.section === "current") {
+            buttonAdd.focus();
+        }
+    });
+
+    document.addEventListener('click', (e) => {
+        if (tasks.section === "current") {
+            todoInput.focus();
+        }
     });
 
     INIT();
