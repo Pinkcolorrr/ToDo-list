@@ -42,8 +42,8 @@
                 oncancel: function () {}
             }, options);
 
-            const html =
-                `<div class="custom-confirm" id="custom-confirm">
+            const html = `
+            <div class="custom-confirm" id="custom-confirm">
                 <div class="custom-confirm__body">
                     <div class="custom-confirm__title">
                         <div class="custom-confirm__title-text">${options.title}</div>
@@ -93,7 +93,7 @@
         },
 
         close(confirmEl) {
-            confirmEl.style.display = "none";
+            document.body.removeChild(confirmEl);
         }
     };
 
