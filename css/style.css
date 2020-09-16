@@ -103,6 +103,38 @@ body {
 .todo__list {
     counter-reset: item;
     max-height: 350px;
+
+    padding-right: 8px;
+    margin-right: -8px;
+
+    overflow-y: hidden;
+}
+
+/* width */
+::-webkit-scrollbar {
+    width: 8px;
+    cursor: pointer;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: #fff;
+    border-radius: 10px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: rgba(51, 51, 51, 0.8);
+    border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(51, 51, 51, 0.9);
+}
+
+::-webkit-scrollbar-thumb:active {
+    background: rgba(51, 51, 51, 1);
 }
 
 .todo__item {

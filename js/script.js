@@ -30,6 +30,10 @@ const tasks = {
         taskState: "trash"
     }],
     section: "current",
+
+    get allTasks() {
+        return this[this.section].length;
+    },
 };
 
 const buttonAdd = document.getElementById('button-add');
@@ -98,6 +102,8 @@ function createItem(el) {
     }
     itemButtons.appendChild(buttonRemove);
     todoList.appendChild(item);
+
+    toggleScroll();
 }
 
 function removeTask(elem) {
@@ -116,6 +122,8 @@ function removeTask(elem) {
             removeElem.remove();
         }
     });
+
+    toggleScroll();
 }
 
 function sendToTrash(elem) {
@@ -131,6 +139,8 @@ function sendToTrash(elem) {
         }
     }
     removeElem.remove();
+
+    toggleScroll();
 }
 
 function doneTask(elem) {
@@ -146,6 +156,8 @@ function doneTask(elem) {
     }
 
     doneElem.remove();
+
+    toggleScroll();
 }
 
 function returnTask(elem) {
@@ -162,6 +174,8 @@ function returnTask(elem) {
     }
 
     returnElem.remove();
+
+    toggleScroll();
 }
 
 function changeSections(section) {
@@ -184,6 +198,8 @@ function changeSections(section) {
     });
 
     tasks.section = currentSection;
+
+    toggleScroll();
 }
 
 function getTaskById(id) {
@@ -219,6 +235,28 @@ function doId() {
     return Math.random().toString(36).substr(2, 16);
 }
 
+function toggleScroll() {
+    if (tasks.section === "current") {
+        todoList.style.maxHeight = "350px";
+        if (tasks.allTasks > 9) {
+            todoList.style.overflowY = "scroll";
+            todoList.style.marginRight = "-16px";
+        } else {
+            todoList.style.overflowY = "hidden";
+            todoList.style.marginRight = "-8px";
+        }
+    } else {
+        todoList.style.maxHeight = "440px";
+        if (tasks.allTasks > 11) {
+            todoList.style.overflowY = "scroll";
+            todoList.style.marginRight = "-16px";
+        } else {
+            todoList.style.overflowY = "hidden";
+            todoList.style.marginRight = "-8px";
+        }
+    }
+}
+
 buttonAdd.addEventListener('click', () => {
     if (todoInput.value.trim() != "") {
         addTask(todoInput.value);
@@ -245,7 +283,7 @@ sectionTrash.addEventListener('click', (e) => {
 });
 
 document.addEventListener('keydown', (e) => {
-    if (e.keyCode === 13 && tasks.section === "current") {
+    if (e.key === "Enter" && tasks.section === "current") {
         buttonAdd.focus();
     }
 });
