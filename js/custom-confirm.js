@@ -49,7 +49,7 @@ export const costomConfirm = {
             });
         });
 
-        document.addEventListener('keyup', (e) => {
+        confirmEl.addEventListener('keyup', (e) => {
             if (e.key === "Escape") {
                 this.close(confirmEl);
             }
